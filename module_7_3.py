@@ -1,18 +1,22 @@
+import io
+from pprint import pprint
+name = 'test_file.txt'
+
 class WordsFinder: # WordsFinder('file1.txt, file2.txt', 'file3.txt', ...)
-    def __init__(self, *name_files):
-        self.name_files = name_files
+    def __init__(self, *file_names):
+        self.file_names = file_names
 
 
     def get_all_words(self): # подготовительный метод, который возвращает словарь
         all_words = {}
-        for name_file in self.name_files:
+        for file_name in self.file_names:
             list = []
-            with open(name_file, encoding='utf-8') as file:
+            with open(file_name, encoding='utf-8') as file:
                 for line in file:
                     line_cls = line.lower().replace(',', '').replace('.', '').replace('=', '').replace('!', '').replace(
                         '?', '').replace(';', '').replace(':', '').replace('-', '').split()
                     list.append(line_cls)
-                all_words[name_file] = sum(list, [])
+                all_words[self.file_names] = sum(list, [])
                 return all_words
     def find(self, word):
         find_dict = {}
@@ -22,14 +26,12 @@ class WordsFinder: # WordsFinder('file1.txt, file2.txt', 'file3.txt', ...)
                 find_dict[name] = words.index(word.lower()) + 1
             return find_dict
 
-
     def count(self, word):
-        word_number = {}
-        search_word = search_words.lower()
-        for name_file, words in self.get_all_words().items():
-            word_number[name_file] = words.count(search_word)
-        return word_number
-
+        all_words = self.get_all_words()
+        result = {}
+        for file_names, words in all_words.items():
+            result[file_names] = words.count(word)
+        return result
 
 if __name__ == '__main__':
     finder2 = WordsFinder('test_file.txt')
